@@ -1,0 +1,17 @@
+.background    { background: black;
+                 table-layout: fixed;
+                 border-spacing: 0;   }
+.background td { padding: 0;          }
+.badwall       { background: red; }
+.wall          { background: blue;   }
+
+.actor  { position: absolute;	}
+.exit	{ background: green;	}
+.player { background: white;	}
+
+.game {
+  overflow: hidden;
+  max-height: 600px;
+  max-width: 450px;
+  position: relative;
+}
