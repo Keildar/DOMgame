@@ -1,7 +1,7 @@
 var actorChars = {
 	'@': Player, 
 	'+': Exit,
-	'v': BadWall, 'e': BadWall, 'd': BadWall,
+	'v': EvilFire, 'i': EvilFire, 'd': EvilFire,
 	'f': FireBall
 };
 
@@ -21,8 +21,22 @@ function Level(plan) {
 						this.actors.push(new Actor(new Vector(x, y), ch));
 					} else if (ch === "x") {
 						fieldType = "wall";
+					} else if (ch === "n") {
+						fieldType = "walltright";
+					} else if (ch === "m") {
+						fieldType = "walltleft";
+					} else if (ch === "t") {
+						fieldType = "wallbar";
+					} else if (ch === "l") {
+						fieldType = "walleleft";
+					} else if (ch === "j") {
+						fieldType = "walleright"
 					} else if (ch === "b") {
 						fieldType = "badwall";
+					} else if (ch === "h") {
+						fieldType = "bwr";
+					} else if (ch === "g") {
+						fieldType = "bwl";
 					}
 				gridLine.push(fieldType);
 		}
@@ -52,7 +66,7 @@ Vector.prototype.times = function (factor) {
 
 function Player(pos) {
 	this.pos = pos.plus(new Vector(0, -0.5));
-	this.size = new Vector(0.8, 1.5);
+	this.size = new Vector(0.8, 1.2);
 	this.speed = new Vector(0, 0);
 }
 Player.prototype.type = "player";
@@ -73,24 +87,24 @@ function FireBall(pos) {
 }
 FireBall.prototype.type = "fireball";
 
-function BadWall (pos, ch) {
-  this.pos = pos;
-  this.size = new Vector(1, 1);
-  if (ch == "e") {
-    // Horizontal lava
-	this.size = new Vector(3, 1);
-    this.speed = new Vector(7, 0);
-  } else if (ch == "d") {
+function EvilFire (pos, ch) {
+	this.pos = pos;
+	this.size = new Vector(1, 1);
+		if (ch == "d") {
+	// Horizontal lava
+			this.size = new Vector(3, 1);
+			this.speed = new Vector(7, 0);
+		} else if (ch == "i") {
     // Vertical lava
-	this.size = new Vector(1, 3);
-    this.speed = new Vector(0, 5);
-  } else if (ch == "v") {
+			this.size = new Vector(1, 3);
+			this.speed = new Vector(0, 5);
+		} else if (ch == "v") {
     // Drip lava. Repeat back to this pos.
-    this.speed = new Vector(0, 3);
-    this.repeatPos = pos;
-  }
+			this.speed = new Vector(0, 3);
+			this.repeatPos = pos;
+		}
 }
-BadWall.prototype.type = "badwall";
+EvilFire.prototype.type = "lava";
 
 //important
 function elt(name, className) {
@@ -108,7 +122,7 @@ function DOMDisplay(parent, level) {
 	this.drawFrame();
 }
 
-var scale = 20;
+var scale = 25;
 
 DOMDisplay.prototype.drawBackground = function() {
 	var table = elt("table", "background");
@@ -221,7 +235,7 @@ Level.prototype.animate = function(step, keys) {
 	}
 };
 //have problems with 'times'
-BadWall.prototype.act = function(step, level) {
+EvilFire.prototype.act = function(step, level) {
 	var newPos = this.pos.plus(this.speed.times(step));
 	if (!level.obstacleAt(newPos, this.size))
 		this.pos = newPos;
@@ -321,6 +335,9 @@ Level.prototype.playerTouched = function(type, actor) {
 	} else if (type == "fireball" && this.status == null) {
 		this.status = "lost";
 		this.finishDelay = 1;
+	} else if (type == "lava" && this.status == null) {
+		this.status = "lost";
+		this.finishDelay = 1;
 	} else if (type == "exit") {
 		this.actors = this.actors.filter(function(other) {
 			return other != actor;
@@ -397,7 +414,7 @@ function runGame(plans, Display) {
 			else if (n < plans.length - 1)
 				startLevel(n + 1);
 			else
-			console.log("You win!");
+			alert("You win! :D");
     });
 	}
 	startLevel(0);

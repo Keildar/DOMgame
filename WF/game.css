@@ -1,0 +1,41 @@
+.background    { background-image: url(images/cave_bgl.png);
+                 table-layout: fixed;
+                 border-spacing: 0;   }
+.background td { padding: 0;          }
+
+.badwall       { background-image: url(images/badwall_s.png); }
+.bwr		{ background-image: url(images/badwalle_h.png);	}
+.bwl		{ background-image: url(images/badwalle_g.png);	}
+
+.lava		{ background-image: url(images/lava.png);	}
+
+.wall          { background-image: url(images/wall_x.png);   }
+.walltright		{ background-image: url(images/wall_n.png);	}
+.walltleft		{ background-image: url(images/wall_m.png);	}
+.wallbar		{ background-image: url(images/wall_t.png);	}
+.walleleft		{ background-image: url(images/wall_l.png);	}
+.walleright		{ background-image: url(images/wall_j.png);	}
+
+.fireball{	background-image: url(images/fireball_s.png); 	}
+
+.actor  { position: absolute;	}
+.exit	{ background-image: url(images/exit.png);	}
+
+.player { 
+background-image: url(images/player.png);
+background-repeat: no-repeat;
+}
+
+.game {
+  overflow: hidden;
+  max-height: 750px;
+  max-width: 600px;
+  position: relative;
+ }
+
+.lost .player {
+  background-image: url(images/crash&burn_b.png);
+}
+.won .player {
+  box-shadow: -4px -7px 8px gold, 4px -7px 8px gold;
+}
