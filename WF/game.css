@@ -19,11 +19,15 @@
 .fireball{	background-image: url(images/fireball_s.png); 	}
 
 .actor  { position: absolute;	}
-.exit	{ background-image: url(images/exit.png);	}
+
+.exit	{ 
+	background-image: url(images/exit.png);
+	box-shadow: -4px -7px 8px gold, 4px -7px 8px green;
+}
 
 .player { 
-background-image: url(images/player.png);
-background-repeat: no-repeat;
+	background-image: url(images/player.png);
+	background-repeat: no-repeat;
 }
 
 .game {
@@ -33,6 +37,8 @@ background-repeat: no-repeat;
   position: relative;
  }
 
+/*.titlescreen {	background-image: url(images/titlescreen.png);	}*/
+ 
 .lost .player {
   background-image: url(images/crash&burn_b.png);
 }
