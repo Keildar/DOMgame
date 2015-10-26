@@ -92,11 +92,9 @@ function EvilFire (pos, ch) {
 	this.size = new Vector(1, 1);
 		if (ch == "d") {
 	// Horizontal lava
-			this.size = new Vector(3, 1);
-			this.speed = new Vector(7, 0);
+			this.speed = new Vector(10, 0);
 		} else if (ch == "i") {
     // Vertical lava
-			this.size = new Vector(1, 3);
 			this.speed = new Vector(0, 5);
 		} else if (ch == "v") {
     // Drip lava. Repeat back to this pos.
@@ -330,6 +328,12 @@ Player.prototype.act = function(step, level, keys) {
 //Touch function- win/ose conition
 Level.prototype.playerTouched = function(type, actor) {
 	if (type == "badwall" && this.status == null) {
+		this.status = "lost";
+		this.finishDelay = 1;
+	} else if (type == "bwr" && this.status == null) {
+		this.status = "lost";
+		this.finishDelay = 1;
+	} else if (type == "bwl" && this.status == null) {
 		this.status = "lost";
 		this.finishDelay = 1;
 	} else if (type == "fireball" && this.status == null) {
