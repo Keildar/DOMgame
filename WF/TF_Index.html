@@ -4,14 +4,223 @@
 	<title>True Fall</title>
 	<script src='game_code.js'></script>
 	<script src='game_levels.js'></script>
-	
+
 	<link rel='stylesheet' href='game.css'>
 </head>
 <body>
+	<canvas id='canvas' height=750 width=600></canvas>
 	<script>
-		alert("Welcome to True Fall!");
-		alert("Use the arrow keys to move and the space bar to fly!");
-		runGame(GAME_LEVELS, DOMDisplay);
+	var canvas;
+	var canvas1;
+	var context;
+	var currentScreen;
+	var mouse;
+	
+	function beginLoop() {
+		var frameId = 0;
+		var lastFrame = Date.now();
+
+		function loop() {
+			var thisFrame = Date.now();
+
+			var elapsed = thisFrame - lastFrame;
+
+			frameId = window.requestAnimationFrame(loop);
+
+			currentScreen.update(elapsed);
+			currentScreen.drawText(context);
+
+			lastFrame = thisFrame;
+		}
+
+		loop();
+	}
+	
+	canvas = document.getElementById('canvas');
+	context = canvas.getContext('2d');
+	
+	mouse = (function (target) {
+		var isButtonDown = false;
+		target.addEventListener('mousedown',
+			function() {
+				isButtonDown = true;});
+		target.addEventListener('mouseup',
+			function() {
+				isButtonDown = false;});
+		
+		return {
+			isButtonDown: function() {
+				return isButtonDown;
+			}
+		};
+	}(document));
+	
+//	currentScreen = (function (input) {
+//		var title = document.createElement('img');
+//		title.scr = 'images/titlescreen.png';
+
+	// define the start screen
+	currentScreen = (function (input) {
+
+		var hue = 0;
+		var direction = 1;
+		var transitioning = false;
+		var wasButtonDown = false;
+		var title = 'True Fall';
+
+		function centerText(ctx, text, y) {
+			var measurement = ctx.measureText(text);
+			var x = (ctx.canvas.width - measurement.width) / 2;
+			ctx.fillText(text, x, y);
+		}
+
+		function drawText(ctx, elapsed) {
+
+			var y = ctx.canvas.height / 2;
+			var color = 'rgb(' + hue + ',0,0)';
+
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			ctx.fillStyle = 'orange';
+			ctx.font = '72px monospace';
+			centerText(ctx, title, y);
+
+			ctx.fillStyle = color;
+			ctx.font = '24px monospace';
+			centerText(ctx, 'click to begin', y + 30);
+		}
+
+		function update() {
+
+			hue += 1 * direction;
+				if (hue > 255) direction = -1;
+				if (hue < 1) direction = 1;
+
+			var isButtonDown = input.isButtonDown();
+			var mouseJustClicked = !isButtonDown && wasButtonDown;
+
+				if (mouseJustClicked && !transitioning) {
+					transitioning = true;
+					//canvas.height = 0;
+				//	canvas.width = 0;
+				// do something here to transition to the actual game
+					htp();
+				}
+
+			wasButtonDown = isButtonDown;
+		}
+
+		return {
+			drawText: drawText,
+			update: update
+		};
+	}(mouse));
+	
+	function htp() {
+	
+		canvas = document.getElementById('canvas');
+		context = canvas.getContext('2d');
+		
+	
+		mouse = (function (target) {
+		var isButtonDown = false;
+		target.addEventListener('mousedown',
+			function() {
+				isButtonDown = true;});
+		target.addEventListener('mouseup',
+			function() {
+				isButtonDown = false;});
+		
+		return {
+			isButtonDown: function() {
+				return isButtonDown;
+			}
+		};
+	}(document));
+	
+//	currentScreen = (function (input) {
+//		var title = document.createElement('img');
+//		title.scr = 'images/titlescreen.png';
+
+	// define the start screen
+	currentScreen = (function (input) {
+
+		var hue = 0;
+		var direction = 1;
+		var transitioning = false;
+		var wasButtonDown = false;
+		var title1 = 'How to Play';
+		var title2 = 'Use the arrow keys to move,';
+		var title3 = 'And the space bar to fly!';
+
+		function centerText(ctx, text, y) {
+			var measurement = ctx.measureText(text);
+			var x = (ctx.canvas.width - measurement.width) / 2;
+			ctx.fillText(text, x, y);
+		}
+
+		function drawText(ctx, elapsed) {
+
+			//var y = ctx.canvas1.height / 2;
+			var color = 'rgb(' + hue + ',0,0)';
+
+			ctx.clearRect(0, 0, 600, 750);
+			ctx.fillStyle = 'orange';
+			ctx.font = '72px monospace';
+			centerText(ctx, title1, 290);
+			
+			ctx.fillStyle = 'orange';
+			ctx.font = '36px monospace';
+			centerText(ctx, title2, 340);
+			
+			ctx.fillStyle = 'orange';
+			ctx.font = '36px monospace';
+			centerText(ctx, title3, 380);
+
+			ctx.fillStyle = color;
+			ctx.font = '24px monospace';
+			centerText(ctx, 'click to play', 450);
+		}
+
+		function update() {
+
+			hue += 1 * direction;
+				if (hue > 255) direction = -1;
+				if (hue < 1) direction = 1;
+
+			var isButtonDown = input.isButtonDown();
+			var mouseJustClicked = !isButtonDown && wasButtonDown;
+
+				if (mouseJustClicked && !transitioning) {
+					transitioning = true;
+					canvas.height = 0;
+					canvas.width = 0;
+				// do something here to transition to the actual game
+					runGame(GAME_LEVELS, DOMDisplay);
+				}
+
+			wasButtonDown = isButtonDown;
+		}
+
+		return {
+			drawText: drawText,
+			update: update
+		};
+		
+	}(mouse));
+	}
+	
+	beginLoop();
+	
+		function fillBackgroundColor() {
+		context.fillStyle = 'black';
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		drawText();
+	}
+	
+	//	alert("Welcome to True Fall!");
+	//	alert("Use the arrow keys to move and the space bar to fly!");
+	
+	//	runGame(GAME_LEVELS, DOMDisplay, CanvasDisplay);
 	</script>
 </body>
 <script>
