@@ -1,7 +1,9 @@
+canvas			{ background-image: url(images/titlescreen.png); }
 .background    { background-image: url(images/cave_bgl.png);
                  table-layout: fixed;
-                 border-spacing: 0;   }
-.background td { padding: 0;          }
+                 border-spacing: 0;
+				background-color: black; }
+.background td { padding: 0; }
 
 .badwall       { background-image: url(images/badwall_s.png); }
 .bwr		{ background-image: url(images/badwalle_h.png);	}
